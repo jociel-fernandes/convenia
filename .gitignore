@@ -1,0 +1,76 @@
+# Arquivos de ambiente
+.env
+.env.backup
+.env.production
+src/.env
+src/.env.backup
+
+# Dependências
+/node_modules
+/vendor
+src/node_modules
+src/vendor
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Laravel
+src/bootstrap/cache
+src/storage/*.key
+src/storage/app/*
+!src/storage/app/.gitkeep
+src/storage/framework/cache/*
+!src/storage/framework/cache/.gitkeep
+src/storage/framework/sessions/*
+!src/storage/framework/sessions/.gitkeep
+src/storage/framework/testing/*
+!src/storage/framework/testing/.gitkeep
+src/storage/framework/views/*
+!src/storage/framework/views/.gitkeep
+src/storage/logs/*
+!src/storage/logs/.gitkeep
+
+# Laravel Mix
+src/public/hot
+src/public/storage
+src/public/css
+src/public/js
+src/public/mix-manifest.json
+
+# NPM
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Composer
+composer.phar
+
+# Docker
+docker-compose.override.yml
+
+# Testing
+.phpunit.result.cache
+.phpunit.cache
+coverage/
+/coverage.xml
+src/.phpunit.result.cache
+src/.phpunit.cache
+
+# Backup files
+*.bak
+*.backup
+*.sql
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/

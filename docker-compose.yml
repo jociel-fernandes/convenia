@@ -1,0 +1,102 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    image: convenia-app
+    container_name: convenia-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./src:/var/www
+    networks:
+      - convenia-network
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=db
+      - REDIS_HOST=redis
+      - MAIL_HOST=mailhog
+      - TZ=${APP_TIMEZONE:-America/Sao_Paulo}
+      - LARAVEL_SKIP_DOTENV_IF_EXISTS=1
+      - APP_ENV=${APP_ENV:-production}
+      - APP_KEY=${APP_KEY}
+      - APP_DEBUG=${APP_DEBUG:-false}
+      - APP_URL=${APP_URL:-http://localhost:8000}
+
+  nginx:
+    image: nginx:alpine
+    container_name: convenia-nginx
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8000}:80"
+    volumes:
+      - ./src:/var/www
+      - ./.docker/nginx:/etc/nginx/conf.d
+    networks:
+      - convenia-network
+    depends_on:
+      - app
+    env_file:
+      - .env
+
+  db:
+    image: mysql:8.0
+    container_name: convenia-mysql
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-convenia_db}
+      MYSQL_USER: ${DB_USERNAME:-convenia_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-convenia_pass}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_password}
+      TZ: ${APP_TIMEZONE:-America/Sao_Paulo}
+    command: --default-time-zone='${DB_TIMEZONE:--03:00}'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - convenia-network
+    env_file:
+      - .env
+
+  redis:
+    image: redis:7-alpine
+    container_name: convenia-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - convenia-network
+    command: redis-server --appendonly yes
+    environment:
+      - TZ=${APP_TIMEZONE:-America/Sao_Paulo}
+    env_file:
+      - .env
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: convenia-mailhog
+    restart: unless-stopped
+    ports:
+      - "${MAILHOG_PORT:-1025}:1025"
+      - "${MAILHOG_WEB_PORT:-8025}:8025"
+    networks:
+      - convenia-network
+    env_file:
+      - .env
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  convenia-network:
+    driver: bridge
