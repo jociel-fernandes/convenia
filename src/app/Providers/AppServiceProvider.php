@@ -10,6 +10,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\CollaboratorRepository;
 use App\Services\UserService;
 use App\Services\CollaboratorService;
+use App\Services\CollaboratorImportService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(CollaboratorService::class, function ($app) {
             return new CollaboratorService($app->make(CollaboratorRepositoryInterface::class));
+        });
+
+        $this->app->singleton(CollaboratorImportService::class, function ($app) {
+            return new CollaboratorImportService();
         });
     }
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CollaboratorController;
+use App\Http\Controllers\Api\CollaboratorImportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,20 @@ Route::middleware(['auth:api'])->group(function () { // ✅ Passport: auth:api
     Route::prefix('users')->group(function () {
         Route::get('search/{search}', [UserController::class, 'search']);
         Route::get('statistics/overview', [UserController::class, 'statistics']);
+    });
+
+    // Collaborator Import/Export - rotas de importação e exportação (ANTES do apiResource)
+    Route::prefix('collaborators/import')->group(function () {
+        Route::get('/', [CollaboratorImportController::class, 'index']);
+        Route::post('/', [CollaboratorImportController::class, 'upload']);
+        Route::post('validate', [CollaboratorImportController::class, 'validate']);
+        Route::get('template', [CollaboratorImportController::class, 'template']);
+        Route::get('{import}/status', [CollaboratorImportController::class, 'status']);
+        Route::post('{import}/cancel', [CollaboratorImportController::class, 'cancel']);
+    });
+
+    Route::prefix('collaborators/export')->group(function () {
+        Route::post('/', [CollaboratorImportController::class, 'export']);
     });
 
     // Collaborator management - CRUD básico com policies
