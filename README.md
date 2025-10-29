@@ -82,6 +82,25 @@ As credenciais são definidas no arquivo `.env`:
 - **Usuário**: Definido em `DB_USERNAME` (padrão: convenia_user)
 - **Senha**: Definida em `DB_PASSWORD` (padrão: convenia_pass)
 
+## 📚 Documentação da API
+
+### Arquivos de Documentação
+- **`API_DOCUMENTATION.md`** - Documentação completa da API com todos os endpoints
+- **`POSTMAN_SETUP.md`** - Guia de configuração do Postman
+- **`Convenia_API_Collection.postman_collection.json`** - Collection do Postman
+- **`Convenia_API_Development.postman_environment.json`** - Environment para desenvolvimento
+- **`sample_collaborators.csv`** - Arquivo CSV de exemplo para testes de importação
+
+### URLs da API
+- **Base URL**: http://localhost:8000/api
+- **Autenticação**: Bearer Token (JWT via Laravel Passport)
+- **Documentação**: Veja `API_DOCUMENTATION.md` para detalhes completos
+
+### Postman
+1. Importe o environment: `Convenia_API_Development.postman_environment.json`
+2. Importe a collection: `Convenia_API_Collection.postman_collection.json`
+3. Siga o guia em `POSTMAN_SETUP.md`
+
 ## Comandos Úteis
 
 ### Artisan

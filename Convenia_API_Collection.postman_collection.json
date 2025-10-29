@@ -1,0 +1,824 @@
+{
+	"info": {
+		"_postman_id": "f8a9b2c3-1d4e-5f6a-7b8c-9d0e1f2a3b4c",
+		"name": "Convenia API Collection",
+		"description": "Collection completa da API Convenia - Sistema de gerenciamento de colaboradores e usuários com autenticação JWT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12345678"
+	},
+	"item": [
+		{
+			"name": "🔑 Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.token) {",
+									"        pm.environment.set('access_token', response.data.token);",
+									"        console.log('Token salvo:', response.data.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{manager_email}}\",\n    \"password\": \"{{manager_password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Realizar login no sistema. Apenas usuários com role 'manager' podem acessar."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Realizar logout e revogar o token atual."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						},
+						"description": "Obter informações do usuário autenticado."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints de autenticação JWT usando Laravel Passport"
+		},
+		{
+			"name": "👥 Users Management",
+			"item": [
+				{
+					"name": "List Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users?page=1&per_page=15",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "15"
+								}
+							]
+						},
+						"description": "Listar todos os usuários com paginação."
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Novo Usuário\",\n    \"email\": \"novo@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Criar um novo usuário no sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						},
+						"description": "Obter detalhes de um usuário específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Nome Atualizado\",\n    \"email\": \"email_atualizado@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						},
+						"description": "Atualizar dados de um usuário."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						},
+						"description": "Deletar um usuário do sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Search Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/search/manager",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"search",
+								"manager"
+							]
+						},
+						"description": "Buscar usuários por nome ou email."
+					},
+					"response": []
+				},
+				{
+					"name": "User Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users/statistics/overview",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"statistics",
+								"overview"
+							]
+						},
+						"description": "Obter estatísticas dos usuários."
+					},
+					"response": []
+				}
+			],
+			"description": "CRUD completo de usuários com busca e estatísticas"
+		},
+		{
+			"name": "👷 Collaborators Management",
+			"item": [
+				{
+					"name": "List Collaborators",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/collaborators?page=1&per_page=15&city=São Paulo",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "15"
+								},
+								{
+									"key": "city",
+									"value": "São Paulo",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Listar colaboradores com paginação e filtros opcionais."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Collaborator",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Maria Santos\",\n    \"email\": \"maria@example.com\",\n    \"cpf\": \"987.654.321-00\",\n    \"phone\": \"(11) 88888-8888\",\n    \"city\": \"Rio de Janeiro\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/collaborators",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators"
+							]
+						},
+						"description": "Criar um novo colaborador."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Collaborator",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/collaborators/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators",
+								"1"
+							]
+						},
+						"description": "Obter detalhes de um colaborador específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Collaborator",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"João Silva Santos\",\n    \"phone\": \"(11) 99999-8888\",\n    \"city\": \"São Paulo\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/collaborators/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators",
+								"1"
+							]
+						},
+						"description": "Atualizar dados de um colaborador."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Collaborator",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/collaborators/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators",
+								"1"
+							]
+						},
+						"description": "Deletar um colaborador do sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Collaborator Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/collaborators/statistics/overview",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators",
+								"statistics",
+								"overview"
+							]
+						},
+						"description": "Obter estatísticas dos colaboradores."
+					},
+					"response": []
+				}
+			],
+			"description": "CRUD completo de colaboradores com filtros e estatísticas"
+		},
+		{
+			"name": "📊 Import & Export",
+			"item": [
+				{
+					"name": "List Imports",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/collaborators/import",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators",
+								"import"
+							]
+						},
+						"description": "Listar todas as importações do usuário."
+					},
+					"response": []
+				},
+				{
+					"name": "Upload CSV for Import",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"description": "Arquivo CSV com colaboradores"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/collaborators/import",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators",
+								"import"
+							]
+						},
+						"description": "Fazer upload de arquivo CSV para importação de colaboradores."
+					},
+					"response": []
+				},
+				{
+					"name": "Validate CSV",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"description": "Arquivo CSV para validação"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/collaborators/import/validate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators",
+								"import",
+								"validate"
+							]
+						},
+						"description": "Validar estrutura do CSV antes da importação."
+					},
+					"response": []
+				},
+				{
+					"name": "Download CSV Template",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/collaborators/import/template",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators",
+								"import",
+								"template"
+							]
+						},
+						"description": "Baixar template CSV para importação."
+					},
+					"response": []
+				},
+				{
+					"name": "Check Import Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/collaborators/import/1/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators",
+								"import",
+								"1",
+								"status"
+							]
+						},
+						"description": "Verificar status de uma importação específica."
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Import",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/collaborators/import/1/cancel",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators",
+								"import",
+								"1",
+								"cancel"
+							]
+						},
+						"description": "Cancelar uma importação em processamento."
+					},
+					"response": []
+				},
+				{
+					"name": "Export Collaborators",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filters\": {\n        \"city\": \"São Paulo\",\n        \"created_from\": \"2025-01-01\",\n        \"created_to\": \"2025-12-31\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/collaborators/export",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"collaborators",
+								"export"
+							]
+						},
+						"description": "Exportar colaboradores para CSV com filtros opcionais."
+					},
+					"response": []
+				}
+			],
+			"description": "Sistema completo de importação e exportação de colaboradores via CSV"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Script executado antes de cada requisição",
+					"console.log('Executando requisição para:', pm.request.url);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Script executado após cada requisição",
+					"console.log('Status:', pm.response.code);",
+					"console.log('Tempo de resposta:', pm.response.responseTime + 'ms');"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "collection_version",
+			"value": "1.0.0",
+			"type": "string"
+		}
+	]
+}

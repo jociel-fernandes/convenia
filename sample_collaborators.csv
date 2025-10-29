@@ -1,0 +1,11 @@
+name,email,cpf,phone,city
+João Silva,joao.silva@example.com,123.456.789-00,(11) 99999-1111,São Paulo
+Maria Santos,maria.santos@example.com,987.654.321-00,(21) 88888-2222,Rio de Janeiro
+Pedro Oliveira,pedro.oliveira@example.com,456.789.123-00,(31) 77777-3333,Belo Horizonte
+Ana Costa,ana.costa@example.com,789.123.456-00,(41) 66666-4444,Curitiba
+Carlos Ferreira,carlos.ferreira@example.com,321.654.987-00,(51) 55555-5555,Porto Alegre
+Lucia Pereira,lucia.pereira@example.com,654.987.321-00,(61) 44444-6666,Brasília
+Roberto Lima,roberto.lima@example.com,147.258.369-00,(71) 33333-7777,Salvador
+Fernanda Rocha,fernanda.rocha@example.com,258.369.147-00,(81) 22222-8888,Recife
+Marcos Almeida,marcos.almeida@example.com,369.147.258-00,(85) 11111-9999,Fortaleza
+Patricia Gomes,patricia.gomes@example.com,159.753.486-00,(11) 98765-4321,São Paulo
