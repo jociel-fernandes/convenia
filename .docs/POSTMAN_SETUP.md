@@ -84,16 +84,7 @@ Agora você pode executar qualquer endpoint! Eles usarão automaticamente o toke
 - Logout
 - Get Current User
 
-#### 👥 Users Management
-- List Users (com paginação)
-- Create User
-- Get User
-- Update User
-- Delete User
-- Search Users
-- User Statistics
-
-#### 👷 Collaborators Management
+####  Collaborators Management
 - List Collaborators (com filtros)
 - Create Collaborator
 - Get Collaborator

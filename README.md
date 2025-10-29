@@ -225,14 +225,6 @@ Todos os containers usam a mesma timezone para garantir consistência nos timest
 - `POST /api/auth/logout` - Logout do usuário
 - `GET /api/auth/me` - Dados do usuário autenticado
 
-### Usuários (Managers)
-
-- `GET /api/users` - Listar managers
-- `POST /api/users` - Criar manager
-- `GET /api/users/{id}` - Visualizar manager
-- `PUT /api/users/{id}` - Atualizar manager
-- `DELETE /api/users/{id}` - Excluir manager
-
 ### Colaboradores
 
 - `GET /api/collaborators` - Listar colaboradores
@@ -362,7 +354,7 @@ Para informações detalhadas sobre a API, configuração do Postman e funcional
 
 ### 🎯 Funcionalidades Principais
 - ✅ **Autenticação JWT** via Laravel Passport
-- ✅ **CRUD completo** de usuários e colaboradores
+- ✅ **CRUD completo** de colaboradores
 - ✅ **Importação/Exportação CSV** com processamento em background
 - ✅ **Sistema de emails** com templates responsivos
 - ✅ **Controle de acesso** baseado em roles e permissões

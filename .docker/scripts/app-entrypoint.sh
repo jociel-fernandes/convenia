@@ -34,8 +34,10 @@ if [ -f "/var/www/artisan" ]; then
     php artisan passport:keys --force --no-interaction
     
 
-    chmod 775 /var/www/storage/oauth-public.key
-    chmod 775 /var/www/storage/oauth-private.key
+    chmod 600 /var/www/storage/oauth-public.key
+    chmod 600 /var/www/storage/oauth-private.key
+    chown www-data:www-data /var/www/storage/oauth-public.key
+    chown www-data:www-data /var/www/storage/oauth-private.key
 
 
     php artisan passport:client --personal --name="Personal Access Client" --provider="users" --no-interaction

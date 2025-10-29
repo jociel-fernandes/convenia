@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CollaboratorController;
 use App\Http\Controllers\Api\CollaboratorImportController;
 use Illuminate\Support\Facades\Route;
@@ -28,15 +27,6 @@ Route::middleware(['auth:api'])->group(function () { // ✅ Passport: auth:api
     Route::prefix('auth')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('me', [AuthController::class, 'me']);
-    });
-
-    // User management - CRUD básico com policies
-    Route::apiResource('users', UserController::class);
-
-    // User management - rotas adicionais
-    Route::prefix('users')->group(function () {
-        Route::get('search/{search}', [UserController::class, 'search']);
-        Route::get('statistics/overview', [UserController::class, 'statistics']);
     });
 
     // Collaborator Import/Export - rotas de importação e exportação (ANTES do apiResource)

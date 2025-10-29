@@ -26,13 +26,15 @@ class SimpleAuthTest extends TestCase
      */
     public function test_protected_routes_require_authentication(): void
     {
-        $response = $this->getJson('/api/users');
+        $response = $this->getJson('/api/collaborators');
         $response->assertStatus(401);
         
-        $response = $this->postJson('/api/users', [
-            'name' => 'Test User',
+        $response = $this->postJson('/api/collaborators', [
+            'name' => 'Test Collaborator',
             'email' => 'test@example.com',
-            'password' => 'password123'
+            'city' => 'new city',
+            'state' => 'TS',
+            'cpf' => '12345678901',
         ]);
         $response->assertStatus(401);
     }
@@ -45,7 +47,7 @@ class SimpleAuthTest extends TestCase
         $manager = User::factory()->create();
         $manager->assignRole('manager');
 
-        $response = $this->actingAs($manager, 'api')->getJson('/api/users');
+        $response = $this->actingAs($manager, 'api')->getJson('/api/collaborators');
         $response->assertStatus(200);
     }
 
@@ -58,7 +60,7 @@ class SimpleAuthTest extends TestCase
         $manager->assignRole('manager');
 
         // Manager can access API
-        $response = $this->actingAs($manager, 'api')->getJson('/api/users');
+        $response = $this->actingAs($manager, 'api')->getJson('/api/collaborators');
         $response->assertStatus(200);
 
         // Note: Collaborators are separate entities (not users), 
@@ -72,28 +74,16 @@ class SimpleAuthTest extends TestCase
     {
         $manager = User::factory()->create();
         $manager->assignRole('manager');
-        
-        $userToEdit = User::factory()->create();
-        $userToEdit->assignRole('manager');
 
-        // Manager can edit users
+        // Manager can view collaborators statistics (read-only test)
         $response = $this->actingAs($manager, 'api')
-            ->putJson("/api/users/{$userToEdit->id}", [
-                'name' => 'Updated Name',
-                'email' => $userToEdit->email
-            ]);
+            ->getJson("/api/collaborators/statistics/overview");
         $response->assertStatus(200);
 
-        // Manager can create new managers
+        // Manager can access auth/me route
         $response = $this->actingAs($manager, 'api')
-            ->postJson("/api/users", [
-                'name' => 'New Manager',
-                'email' => 'newmanager@example.com',
-                'password' => 'password123',
-                'password_confirmation' => 'password123',
-                'roles' => ['manager']
-            ]);
-        $response->assertStatus(201);
+            ->getJson("/api/auth/me");
+        $response->assertStatus(200);
     }
 
     /**

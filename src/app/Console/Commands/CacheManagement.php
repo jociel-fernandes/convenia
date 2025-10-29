@@ -141,9 +141,8 @@ class CacheManagement extends Command
     private function clearUserCache(): bool
     {
         try {
-            // Manual pattern clearing
+            // Manual pattern clearing (apenas para cache de autenticação)
             $this->clearByPattern('cacheduser*');
-            $this->clearByPattern('cacheduserservice*');
 
             return true;
         } catch (\Exception $e) {
@@ -210,7 +209,6 @@ class CacheManagement extends Command
             
             $patterns = [
                 'User Repository' => $cachePrefix . ':cacheduser*',
-                'User Service' => $cachePrefix . ':cacheduserservice*',
                 'Session' => $cachePrefix . ':*session*',
                 'Queue' => $cachePrefix . ':*queue*',
                 'Other' => $cachePrefix . ':*',

@@ -10,15 +10,7 @@
 - ✅ Middleware de autenticação
 - ✅ Controle de acesso por roles (apenas managers)
 
-#### 👥 Gerenciamento de Usuários
-- ✅ CRUD completo (Create, Read, Update, Delete)
-- ✅ Listagem com paginação
-- ✅ Busca por nome/email
-- ✅ Estatísticas de usuários
-- ✅ Validações de dados
-- ✅ Email de boas-vindas
-
-#### 👷 Gerenciamento de Colaboradores
+####  Gerenciamento de Colaboradores
 - ✅ CRUD completo
 - ✅ Listagem com paginação
 - ✅ Filtros por cidade
@@ -263,7 +255,6 @@ docker-compose ps
 
 Todos os requisitos foram implementados com sucesso:
 - ✅ Sistema de autenticação JWT
-- ✅ CRUD completo de usuários
 - ✅ CRUD completo de colaboradores  
 - ✅ Sistema de importação/exportação CSV
 - ✅ Notificações por email
