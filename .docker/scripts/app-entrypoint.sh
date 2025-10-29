@@ -32,10 +32,13 @@ if [ -f "/var/www/artisan" ]; then
     done
 
     php artisan passport:keys --force --no-interaction
-    php artisan passport:client --personal --name="Personal Access Client" --no-interaction
+    
 
-    chmod 644 /var/www/storage/oauth-public.key
+    chmod 600 /var/www/storage/oauth-public.key
     chmod 600 /var/www/storage/oauth-private.key
+
+
+    php artisan passport:client --personal --name="Personal Access Client" --provider="users" --no-interaction
 
     php artisan db:seed --no-interaction
 

@@ -20,11 +20,6 @@ Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
 });
 
-// Rota de teste para debug
-Route::get('test-public', function () {
-    return response()->json(['message' => 'Rota pública funcionando!']);
-});
-
 // Rotas protegidas (requerem autenticação)
 Route::middleware(['auth:api'])->group(function () { // ✅ Passport: auth:api
     // Auth routes
