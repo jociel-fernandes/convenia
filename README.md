@@ -7,18 +7,56 @@ API RESTful desenvolvida em Laravel 12 para gestão de colaboradores, com autent
 ```
 .
 ├── src/                    # Código fonte do Laravel
-├── .docker/                # Configurações Docker
-│   ├── nginx/             # Configuração Nginx
-│   ├── php/               # Configuração PHP
-│   ├── supervisor/        # Configuração Supervisor (filas)
-│   ├── scripts/           # Scripts de inicialização (app-entrypoint.sh)
-│   └── Dockerfile         # Imagem da aplicação
+│   ├── app/               # Código da aplicação
+│   ├── config/            # Arquivos de configuração
+│   ├── database/          # Migrations, seeders e factories
+│   ├── routes/            # Definição de rotas
+│   ├── tests/             # Testes automatizados
+│   └── ...               # Outros arquivos Laravel
+├── .docker/               # Configurações Docker
+│   ├── nginx/            # Configuração Nginx
+│   ├── php/              # Configuração PHP
+│   ├── supervisor/       # Configuração Supervisor (filas)
+│   ├── scripts/          # Scripts de inicialização
+│   └── Dockerfile        # Imagem da aplicação
+├── .docs/                 # 📚 Documentação completa do projeto
+│   ├── API_DOCUMENTATION.md              # Documentação da API
+│   ├── POSTMAN_SETUP.md                  # Guia do Postman
+│   ├── PROJECT_SUMMARY.md                # Resumo do projeto
+│   ├── Convenia_API_Collection.postman_collection.json
+│   ├── Convenia_API_Development.postman_environment.json
+│   └── sample_collaborators.csv          # Arquivo de exemplo
+├── .convenia/             # Arquivos do projeto original
 ├── docker-compose.yml     # Orquestração dos containers
-├── .env.example          # Variáveis de ambiente de exemplo
-├── setup.sh              # Script de configuração completa
-├── install-laravel.sh    # Script de instalação do Laravel
+├── .env                   # Variáveis de ambiente
 └── README.md             # Este arquivo
 ```
+
+## 📚 Documentação
+
+Toda a documentação do projeto está localizada na pasta **`.docs/`**:
+
+### 📋 Documentos Principais
+- **[API_DOCUMENTATION.md](.docs/API_DOCUMENTATION.md)** - Documentação completa da API
+- **[POSTMAN_SETUP.md](.docs/POSTMAN_SETUP.md)** - Guia de configuração do Postman  
+- **[PROJECT_SUMMARY.md](.docs/PROJECT_SUMMARY.md)** - Resumo executivo do projeto
+
+### 🚀 Postman Collection
+- **[Convenia_API_Collection.postman_collection.json](.docs/Convenia_API_Collection.postman_collection.json)** - Collection completa
+- **[Convenia_API_Development.postman_environment.json](.docs/Convenia_API_Development.postman_environment.json)** - Environment de desenvolvimento
+
+### 📊 Arquivos de Teste
+- **[sample_collaborators.csv](.docs/sample_collaborators.csv)** - Arquivo CSV de exemplo para importação
+
+### 🎯 Quick Start da API
+1. **Base URL**: `http://localhost:8000/api`
+2. **Autenticação**: Bearer Token (JWT via Laravel Passport)
+3. **Usuários de teste**: 
+   - `gestor@convenia.com` / `password` (Manager)
+   - `gestor2@convenia.com` / `password` (Manager)
+4. **Postman**: Importe os arquivos da pasta `.docs/`
+
+> 💡 **Dica**: Consulte `.docs/API_DOCUMENTATION.md` para documentação detalhada de todos os endpoints.
 
 ## Requisitos
 
@@ -36,10 +74,10 @@ cd opportunity-convenia
 
 ### 2. Configuração do ambiente
 
-Copie o arquivo de exemplo de configuração:
+O arquivo `.env` já está configurado. Se necessário, copie do exemplo:
 
 ```bash
-cp .env.example .env
+cp src/.env.example .env
 ```
 
 Edite o arquivo `.env` conforme necessário. As principais variáveis são:
@@ -82,25 +120,6 @@ As credenciais são definidas no arquivo `.env`:
 - **Usuário**: Definido em `DB_USERNAME` (padrão: convenia_user)
 - **Senha**: Definida em `DB_PASSWORD` (padrão: convenia_pass)
 
-## 📚 Documentação da API
-
-### Arquivos de Documentação
-- **`API_DOCUMENTATION.md`** - Documentação completa da API com todos os endpoints
-- **`POSTMAN_SETUP.md`** - Guia de configuração do Postman
-- **`Convenia_API_Collection.postman_collection.json`** - Collection do Postman
-- **`Convenia_API_Development.postman_environment.json`** - Environment para desenvolvimento
-- **`sample_collaborators.csv`** - Arquivo CSV de exemplo para testes de importação
-
-### URLs da API
-- **Base URL**: http://localhost:8000/api
-- **Autenticação**: Bearer Token (JWT via Laravel Passport)
-- **Documentação**: Veja `API_DOCUMENTATION.md` para detalhes completos
-
-### Postman
-1. Importe o environment: `Convenia_API_Development.postman_environment.json`
-2. Importe a collection: `Convenia_API_Collection.postman_collection.json`
-3. Siga o guia em `POSTMAN_SETUP.md`
-
 ## Comandos Úteis
 
 ### Artisan
@@ -138,7 +157,25 @@ docker-compose exec app php artisan test
 # Executar testes específicos
 docker-compose exec app php artisan test --filter=<TestName>
 
-# Executar testes com coverage
+# Executar testes por suite
+docker-compose exec app php artisan test --testsuite=Feature
+docker-compose exec app php artisan test --testsuite=Unit
+
+# Executar com relatório detalhado
+docker-compose exec app php artisan test --verbose
+```
+
+#### 🔒 Isolamento de Testes
+- **DatabaseTransactions**: Testes usam transações que fazem rollback automático
+- **Dados preservados**: Seeders e dados existentes não são afetados pelos testes
+- **71 testes** passando com **334 assertions**
+- **Usuários do seeder** permanecem disponíveis após execução dos testes
+
+#### 👥 Usuários de Teste (UserSeeder)
+Após executar `docker-compose up -d`, os seguintes usuários estão disponíveis:
+- **Gestor Principal**: `gestor@convenia.com` / `password`
+- **Gestor Secundário**: `gestor2@convenia.com` / `password`
+- **Colaborador**: `colaborador@convenia.com` / `password` (não pode acessar API)
 docker-compose exec app php artisan test --coverage
 ```
 
@@ -261,6 +298,23 @@ docker-compose down -v
 # Reconstruir containers
 docker-compose up -d --build
 ```
+
+## 📖 Documentação Completa
+
+Para informações detalhadas sobre a API, configuração do Postman e funcionalidades avançadas, consulte:
+
+- **[📋 Documentação da API](.docs/API_DOCUMENTATION.md)** - Todos os endpoints, validações e exemplos
+- **[🚀 Setup do Postman](.docs/POSTMAN_SETUP.md)** - Configuração completa para testes
+- **[📊 Resumo do Projeto](.docs/PROJECT_SUMMARY.md)** - Visão geral e estatísticas
+
+### 🎯 Funcionalidades Principais
+- ✅ **Autenticação JWT** via Laravel Passport
+- ✅ **CRUD completo** de usuários e colaboradores
+- ✅ **Importação/Exportação CSV** com processamento em background
+- ✅ **Sistema de emails** com templates responsivos
+- ✅ **Controle de acesso** baseado em roles e permissões
+- ✅ **71 testes automatizados** com isolamento de dados
+- ✅ **Documentação completa** com collection do Postman
 
 ## Contribuição
 
