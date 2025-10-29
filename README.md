@@ -74,10 +74,10 @@ cd opportunity-convenia
 
 ### 2. Configuração do ambiente
 
-O arquivo `.env` já está configurado. Se necessário, copie do exemplo:
+Copie o arquivo de exemplo de configuração:
 
 ```bash
-cp src/.env.example .env
+cp .env.example .env
 ```
 
 Edite o arquivo `.env` conforme necessário. As principais variáveis são:
@@ -248,6 +248,59 @@ Todos os containers usam a mesma timezone para garantir consistência nos timest
 - Ao cadastrar um colaborador, ele pertence automaticamente ao usuário logado
 - Um usuário só pode visualizar, editar ou excluir seus próprios colaboradores
 - Upload de CSV é processado em background com notificação por email
+
+## 🌱 Dados do Seeder (UserSeeder)
+
+O sistema inclui um seeder que cria usuários padrão para desenvolvimento e testes. Estes dados podem ser personalizados conforme necessário:
+
+### 📍 Localização
+```bash
+src/database/seeders/UserSeeder.php
+```
+
+### 👥 Usuários Criados Automaticamente
+
+| Email | Nome | Senha | Role | Acesso API |
+|-------|------|-------|------|------------|
+| `gestor@convenia.com` | Gestor Principal | `password` | manager | ✅ Sim |
+| `gestor2@convenia.com` | Gestor Secundário | `password` | manager | ✅ Sim |
+| `colaborador@convenia.com` | Colaborador Teste | `password` | collaborator | ❌ Não |
+
+### ⚙️ Personalizando os Dados
+
+Para alterar os dados padrão, edite o arquivo `src/database/seeders/UserSeeder.php`:
+
+```php
+// Exemplo: Alterar dados do primeiro gestor
+$manager1 = User::firstOrCreate(
+    ['email' => 'seu-email@empresa.com'],        // ← Altere o email
+    [
+        'name' => 'Seu Nome Personalizado',       // ← Altere o nome
+        'password' => Hash::make('sua-senha'),    // ← Altere a senha
+    ]
+);
+```
+
+### 🔄 Aplicando Alterações
+
+Após modificar o seeder, execute os comandos:
+
+```bash
+# Recrear o banco com novos dados
+docker-compose exec app php artisan migrate:fresh --seed
+
+# Ou apenas executar o seeder específico
+docker-compose exec app php artisan db:seed --class=UserSeeder
+```
+
+> ⚠️ **Importante**: O comando `migrate:fresh` apaga todos os dados existentes. Use com cuidado em ambiente de desenvolvimento.
+
+### 🎯 Uso nos Testes e Postman
+
+Os dados do seeder são utilizados em:
+- **Testes automatizados**: Garantem autenticação consistente
+- **Collection do Postman**: Environment já configurado com as credenciais
+- **Desenvolvimento**: Usuários prontos para testar a API
 
 ## Tecnologias Utilizadas
 
