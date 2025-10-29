@@ -23,7 +23,6 @@ services:
       - TZ=${APP_TIMEZONE:-America/Sao_Paulo}
       - LARAVEL_SKIP_DOTENV_IF_EXISTS=1
       - APP_ENV=${APP_ENV:-production}
-      - APP_KEY=${APP_KEY}
       - APP_DEBUG=${APP_DEBUG:-false}
       - APP_URL=${APP_URL:-http://localhost:8000}
 

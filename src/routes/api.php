@@ -1,0 +1,44 @@
+<?php
+
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
+
+// Rotas públicas
+Route::prefix('auth')->group(function () {
+    Route::post('login', [AuthController::class, 'login']);
+});
+
+// Rota de teste para debug
+Route::get('test-public', function () {
+    return response()->json(['message' => 'Rota pública funcionando!']);
+});
+
+// Rotas protegidas (requerem autenticação)
+Route::middleware(['auth:api'])->group(function () { // ✅ Passport: auth:api
+    // Auth routes
+    Route::prefix('auth')->group(function () {
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::get('me', [AuthController::class, 'me']);
+    });
+
+    // User management - CRUD básico com policies
+    Route::apiResource('users', UserController::class);
+
+    // User management - rotas adicionais
+    Route::prefix('users')->group(function () {
+        Route::get('search/{search}', [UserController::class, 'search']);
+        Route::get('statistics/overview', [UserController::class, 'statistics']);
+    });
+});
