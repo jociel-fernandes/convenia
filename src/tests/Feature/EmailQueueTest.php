@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Mail\WelcomeUserMail;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Permission\Models\Role;
@@ -12,15 +12,15 @@ use Tests\TestCase;
 
 class EmailQueueTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected function setUp(): void
     {
         parent::setUp();
         
         // Create roles for API guard (default guard)
-        Role::create(['name' => 'manager', 'guard_name' => 'api']);
-        Role::create(['name' => 'collaborator', 'guard_name' => 'api']);
+        Role::firstOrCreate(['name' => 'manager', 'guard_name' => 'api']);
+        Role::firstOrCreate(['name' => 'collaborator', 'guard_name' => 'api']);
     }
 
     public function test_welcome_email_is_queued_when_user_is_created(): void

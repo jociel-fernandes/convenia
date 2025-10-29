@@ -4,13 +4,13 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\Collaborator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class CollaboratorCrudTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected function setUp(): void
     {

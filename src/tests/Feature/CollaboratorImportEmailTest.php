@@ -7,7 +7,7 @@ use App\Mail\CollaboratorImportCompleted;
 use App\Models\CollaboratorImport;
 use App\Models\User;
 use App\Services\CollaboratorService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
@@ -18,7 +18,7 @@ use Tests\TestCase;
 
 class CollaboratorImportEmailTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected User $manager;
     protected Role $managerRole;
@@ -28,7 +28,7 @@ class CollaboratorImportEmailTest extends TestCase
         parent::setUp();
         
         // Criar role de manager
-        $this->managerRole = Role::create(['name' => 'manager', 'guard_name' => 'api']);
+        $this->managerRole = Role::firstOrCreate(['name' => 'manager', 'guard_name' => 'api']);
         
         // Criar usuário manager
         $this->manager = User::factory()->create([

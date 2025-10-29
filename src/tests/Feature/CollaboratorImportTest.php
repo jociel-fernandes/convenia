@@ -7,7 +7,7 @@ use App\Models\Collaborator;
 use App\Models\CollaboratorImport;
 use App\Jobs\ProcessCollaboratorImportJob;
 use App\Services\CollaboratorImportService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +15,7 @@ use Tests\TestCase;
 
 class CollaboratorImportTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected User $manager;
 
