@@ -31,16 +31,39 @@ Na raiz do projeto você encontrará:
 
 ## ⚙️ Configuração do Environment
 
-O environment já vem pré-configurado com:
+O environment já vem pré-configurado com os **usuários do seeder**:
 
 | Variável | Valor | Descrição |
 |----------|-------|-----------|
 | `base_url` | `http://localhost:8000/api` | URL base da API |
 | `access_token` | `(vazio)` | Token JWT (preenchido automaticamente) |
-| `manager_email` | `manager@example.com` | Email para login |
-| `manager_password` | `password123` | Senha para login |
+| `manager_email` | `gestor@convenia.com` | Email do gestor principal |
+| `manager_password` | `password` | Senha do gestor principal |
+| `manager2_email` | `gestor2@convenia.com` | Email do gestor secundário |
+| `manager2_password` | `password` | Senha do gestor secundário |
+| `collaborator_email` | `colaborador@convenia.com` | Email do colaborador (apenas para referência) |
+| `collaborator_password` | `password` | Senha do colaborador (não pode fazer login na API) |
 | `content_type` | `application/json` | Content-Type padrão |
 | `accept` | `application/json` | Accept header padrão |
+
+### 👥 Usuários Disponíveis (UserSeeder)
+
+#### Gestores (podem fazer login na API):
+1. **Gestor Principal**
+   - Email: `gestor@convenia.com`
+   - Senha: `password`
+   - Role: `manager`
+
+2. **Gestor Secundário**
+   - Email: `gestor2@convenia.com`
+   - Senha: `password`
+   - Role: `manager`
+
+#### Colaborador (NÃO pode fazer login na API):
+- **Colaborador Teste**
+  - Email: `colaborador@convenia.com`
+  - Senha: `password`
+  - Role: `collaborator` (sem acesso à API)
 
 ---
 

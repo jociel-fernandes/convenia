@@ -82,12 +82,17 @@ docker-compose ps
 
 ### 2. Testar API
 1. Importe os arquivos do Postman
-2. Execute o endpoint de login
+2. Execute o endpoint de login com `gestor@convenia.com` / `password`
 3. Teste todos os outros endpoints
 
 ### 3. URLs Importantes
 - **API**: http://localhost:8000/api
 - **MailHog**: http://localhost:8025
+
+### 4. Usuários de Teste (UserSeeder)
+- **Gestor Principal**: `gestor@convenia.com` / `password`
+- **Gestor Secundário**: `gestor2@convenia.com` / `password`
+- **Colaborador**: `colaborador@convenia.com` / `password` (não pode acessar API)
 
 ---
 

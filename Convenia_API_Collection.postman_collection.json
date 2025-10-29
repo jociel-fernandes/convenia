@@ -60,6 +60,55 @@
 					"response": []
 				},
 				{
+					"name": "Login - Gestor Secundário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.token) {",
+									"        pm.environment.set('access_token', response.data.token);",
+									"        console.log('Token salvo:', response.data.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "{{content_type}}"
+							},
+							{
+								"key": "Accept",
+								"value": "{{accept}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{manager2_email}}\",\n    \"password\": \"{{manager2_password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login alternativo com o gestor secundário do seeder."
+					},
+					"response": []
+				},
+				{
 					"name": "Logout",
 					"request": {
 						"method": "POST",

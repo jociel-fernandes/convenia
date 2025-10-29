@@ -22,6 +22,18 @@ A API usa **Bearer Token** (JWT) para autenticação. Inclua o token no header:
 Authorization: Bearer {access_token}
 ```
 
+### 👥 Usuários de Teste (Seeder)
+O sistema vem com usuários pré-configurados no `UserSeeder`:
+
+#### Gestores (podem acessar a API):
+- **Gestor Principal**: `gestor@convenia.com` / `password`
+- **Gestor Secundário**: `gestor2@convenia.com` / `password`
+
+#### Colaborador (NÃO pode acessar a API):
+- **Colaborador Teste**: `colaborador@convenia.com` / `password`
+
+> ⚠️ **Importante**: Apenas usuários com role `manager` podem fazer login na API.
+
 ---
 
 ## 🚀 Endpoints
@@ -34,8 +46,8 @@ Realizar login no sistema
 **Corpo da Requisição:**
 ```json
 {
-    "email": "manager@example.com",
-    "password": "password123"
+    "email": "gestor@convenia.com",
+    "password": "password"
 }
 ```
 
@@ -47,8 +59,8 @@ Realizar login no sistema
     "data": {
         "user": {
             "id": 1,
-            "name": "Manager User",
-            "email": "manager@example.com",
+            "name": "Gestor Principal",
+            "email": "gestor@convenia.com",
             "roles": ["manager"],
             "permissions": ["manage users", "manage collaborators"]
         },
@@ -100,8 +112,8 @@ Authorization: Bearer {access_token}
 {
     "data": {
         "id": 1,
-        "name": "Manager User",
-        "email": "manager@example.com",
+        "name": "Gestor Principal",
+        "email": "gestor@convenia.com",
         "roles": ["manager"],
         "permissions": ["manage users", "manage collaborators"],
         "created_at": "2025-10-29T10:00:00.000000Z"
